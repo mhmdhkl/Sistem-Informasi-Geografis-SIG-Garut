@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             LokasiSeeder::class,
             StatistikSeeder::class,
+            BeritaSeeder::class,
         ]);
     }
 }
