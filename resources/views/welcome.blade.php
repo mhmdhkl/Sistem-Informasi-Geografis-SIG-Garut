@@ -26,7 +26,7 @@
                 <span class="text-sm md:text-xl font-bold text-gray-800">Pemerintahan<br>Kabupaten Garut</span>
             </div>
             <nav class="hidden md:flex items-center space-x-8 text-gray-600 font-medium">
-                <a href="#home" class="hover:text-blue-600">Home</a>
+                <a href="#home" class="hover:text-blue-600">Dashboard</a>
                 <a href="{{ route('peta.kumpulan') }}" class="hover:text-blue-600">Katalog Peta</a>
                 <a href="#demografi" class="hover:text-blue-600">Demografi</a>
                 <a href="#berita" class="hover:text-blue-600">Berita</a>
