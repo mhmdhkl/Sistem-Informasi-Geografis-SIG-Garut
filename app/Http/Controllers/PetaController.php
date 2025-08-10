@@ -21,4 +21,14 @@ class PetaController extends Controller
     {
         return view('peta', ['tema' => $tema]);
     }
+    
+    public function kumpulanPeta()
+    {
+        return view('kumpulan-peta');
+    }
+
+    public function demografi()
+    {
+        return view('demografi');
+    }
 }

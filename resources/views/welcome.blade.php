@@ -27,7 +27,7 @@
             </div>
             <nav class="hidden md:flex items-center space-x-8 text-gray-600 font-medium">
                 <a href="#home" class="hover:text-blue-600">Home</a>
-                <a href="#katalog" class="hover:text-blue-600">Katalog Peta</a>
+                <a href="{{ route('peta.kumpulan') }}" class="hover:text-blue-600">Katalog Peta</a>
                 <a href="#demografi" class="hover:text-blue-600">Demografi</a>
                 <a href="#berita" class="hover:text-blue-600">Berita</a>
                 <a href="/login" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors">Login</a>
