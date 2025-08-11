@@ -19,6 +19,13 @@
                     <x-nav-link :href="route('lokasi.index')" :active="request()->routeIs('lokasi.*')">
                         {{ __('Data Lokasi') }}
                     </x-nav-link>
+
+                    <x-nav-link :href="route('statistik.index')" :active="request()->routeIs('statistik.*')">
+                        {{ __('Data Statistik') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('berita.index')" :active="request()->routeIs('berita.*')">
+                        {{ __('Data Berita') }}
+                    </x-nav-link>
                 </div>
             </div>
 

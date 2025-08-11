@@ -128,7 +128,7 @@
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                     @forelse ($berita as $item)
                     <div class="bg-white rounded-lg shadow-md overflow-hidden transform hover:-translate-y-2 transition-transform">
-                        <img src="{{ asset('images/' . $item->gambar) }}" alt="{{ $item->judul }}" class="w-full h-48 object-cover">
+                        <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->judul }}" class="w-full h-48 object-cover">
                         <div class="p-6">
                             <h3 class="font-bold text-xl mb-2 h-16">{{ Str::limit($item->judul, 50) }}</h3>
                             <p class="text-gray-600 mb-4 text-sm h-20">{{ Str::limit($item->kutipan_singkat, 100) }}</p>
