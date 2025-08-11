@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Berita;
 use App\Models\Statistik;
+use App\Models\Video;
 use Illuminate\Http\Request;
+
 
 class PetaController extends Controller
 {
@@ -14,7 +16,9 @@ class PetaController extends Controller
 
         $berita = Berita::latest()->take(6)->get();
 
-        return view('welcome', compact('statistik', 'berita'));
+        $videos = Video::latest()->get();
+
+        return view('welcome', compact('statistik', 'berita', 'videos'));
     }
 
     public function peta($tema)

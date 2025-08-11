@@ -11,9 +11,28 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+
     <style>
-        body { 
-            font-family: 'Poppins', sans-serif; 
+        body { font-family: 'Poppins', sans-serif; }
+
+        /* CSS Kustom untuk Memperbaiki Swiper */
+        .videoSwiper {
+            width: 100%;
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+
+        .videoSwiper .swiper-slide {
+            background-position: center;
+            background-size: cover;
+            width: 320px; /* Lebar setiap kartu video */
+            height: 320px;
+        }
+        
+        .videoSwiper .swiper-slide .flex-col {
+            width: 100%;
+            height: 100%;
         }
     </style>
 </head>
@@ -26,7 +45,7 @@
                 <span class="text-sm md:text-xl font-bold text-gray-800">Pemerintahan<br>Kabupaten Garut</span>
             </div>
             <nav class="hidden md:flex items-center space-x-8 text-gray-600 font-medium">
-                <a href="#home" class="hover:text-blue-600">Dashboard</a>
+                <a href="#home" class="hover:text-blue-600">Home</a>
                 <a href="{{ route('peta.kumpulan') }}" class="hover:text-blue-600">Katalog Peta</a>
                 <a href="#demografi" class="hover:text-blue-600">Demografi</a>
                 <a href="#berita" class="hover:text-blue-600">Berita</a>
@@ -48,22 +67,18 @@
 
         <section class="py-20 bg-white">
             <div class="container mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 text-center">
-                
                 <div class="bg-gray-100 p-6 rounded-lg shadow-md">
                     <h3 class="text-2xl md:text-4xl font-bold text-blue-600 mb-2">{{ $statistik['luas_wilayah']->nilai_data ?? 'N/A' }}</h3>
                     <p class="text-gray-500 text-sm md:text-base">Luas Wilayah</p>
                 </div>
-                
                 <div class="bg-gray-100 p-6 rounded-lg shadow-md">
                     <h3 class="text-2xl md:text-4xl font-bold text-blue-600 mb-2">{{ number_format((int) ($statistik['jumlah_penduduk']->nilai_data ?? 0), 0, ',', '.') }}</h3>
                     <p class="text-gray-500 text-sm md:text-base">Jumlah Penduduk</p>
                 </div>
-                
                 <div class="bg-gray-100 p-6 rounded-lg shadow-md">
                     <h3 class="text-2xl md:text-4xl font-bold text-blue-600 mb-2">{{ $statistik['jumlah_kecamatan']->nilai_data ?? 'N/A' }}</h3>
                     <p class="text-gray-500 text-sm md:text-base">Jumlah Kecamatan</p>
                 </div>
-
                 <div class="bg-gray-100 p-6 rounded-lg shadow-md">
                     <h3 class="text-2xl md:text-4xl font-bold text-blue-600 mb-2">{{ $statistik['jumlah_desa']->nilai_data ?? 'N/A' }}</h3>
                     <p class="text-gray-500 text-sm md:text-base">Jumlah Desa/Kelurahan</p>
@@ -103,11 +118,11 @@
              <div class="container mx-auto px-6 text-center">
                 <h2 class="text-3xl font-bold text-gray-800 mb-4">Demografi Kabupaten Garut</h2>
                 <p class="text-gray-600 mb-8 max-w-2xl mx-auto">Lihat data kependudukan terbaru, komposisi penduduk, dan berbagai statistik penting lainnya dalam visualisasi data yang informatif.</p>
-                <a href="/demografi" class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors">Lihat Detail Demografi</a>
+                <a href="{{ route('demografi') }}" class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors">Lihat Detail Demografi</a>
             </div>
         </section>
 
-         <section id="berita" class="py-20 bg-gray-100">
+        <section id="berita" class="py-20 bg-gray-100">
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Berita Terkini</h2>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -126,6 +141,33 @@
                 </div>
             </div>
         </section>
+        
+        <section id="youtube" class="py-20 bg-white overflow-hidden">
+            <div class="container mx-auto px-6">
+                <h2 class="text-3xl font-bold text-center text-gray-800 mb-4">Video Youtube</h2>
+                <div class="swiper videoSwiper">
+                    <div class="swiper-wrapper">
+                        @foreach ($videos as $video)
+                        <div class="swiper-slide">
+                            <div class="flex flex-col h-full bg-gray-50 rounded-lg shadow-lg p-3">
+                                <div class="w-full aspect-video mb-3">
+                                    <iframe class="w-full h-full rounded-md" src="https://www.youtube.com/embed/{{ $video->youtube_id }}" title="{{ $video->judul }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                </div>
+                                <h3 class="font-semibold text-base text-center text-gray-800 flex-grow">{{ $video->judul }}</h3>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+                <div class="text-center mt-12">
+                    <a href="https://www.youtube.com/c/GarutkabTV" target="_blank" class="bg-red-600 text-white px-6 py-3 rounded-md hover:bg-red-700 transition-colors">
+                        Lihat Channel Youtube Garutkab TV
+                    </a>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <footer class="bg-slate-900 text-slate-300 py-12">
@@ -135,5 +177,30 @@
         </div>
     </footer>
 
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <script>
+      var swiper = new Swiper(".videoSwiper", {
+        effect: "coverflow",
+        grabCursor: true,
+        centeredSlides: true,
+        slidesPerView: "auto",
+        loop: true,
+        coverflowEffect: {
+          rotate: 50,
+          stretch: 0,
+          depth: 100,
+          modifier: 1,
+          slideShadows: true,
+        },
+        pagination: {
+          el: ".swiper-pagination",
+        },
+        autoplay: {
+          delay: 3500,
+          disableOnInteraction: false,
+        },
+      });
+    </script>
 </body>
 </html>
