@@ -6,6 +6,7 @@ use App\Http\Controllers\PetaController;
 use App\Http\Controllers\Admin\LokasiController;
 use App\Http\Controllers\Admin\StatistikController;
 use App\Http\Controllers\Admin\BeritaController;
+use App\Http\Controllers\Admin\LayerController;
 
 // Halaman utama
 Route::get('/', [PetaController::class, 'index'])->name('home');
@@ -32,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/statistik', [StatistikController::class, 'index'])->name('statistik.index');
     Route::put('/admin/statistik', [StatistikController::class, 'update'])->name('statistik.update');
     Route::resource('/admin/berita', BeritaController::class)->parameters(['berita' => 'berita']);
+    Route::resource('/admin/layers', LayerController::class);
 });
 
 require __DIR__.'/auth.php';

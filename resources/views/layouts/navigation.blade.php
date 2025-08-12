@@ -26,6 +26,9 @@
                     <x-nav-link :href="route('berita.index')" :active="request()->routeIs('berita.*')">
                         {{ __('Data Berita') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('layers.index')" :active="request()->routeIs('layers.*')">
+                        {{ __('Data Layer Peta') }}
+                    </x-nav-link>
                 </div>
             </div>
 

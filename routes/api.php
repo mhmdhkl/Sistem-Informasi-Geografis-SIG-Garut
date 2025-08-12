@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\LokasiController;      
 use App\Http\Controllers\Api\StatistikController;  
 use App\Http\Controllers\Api\BeritaController;
+use App\Http\Controllers\Api\LayerController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -16,3 +17,4 @@ Route::get('/lokasi', [LokasiController::class, 'index']);
 Route::get('/statistik', [StatistikController::class, 'index']);
 
 Route::get('/berita', [BeritaController::class, 'index']);
+Route::get('/layers/{nama_layer}', [LayerController::class, 'show']);

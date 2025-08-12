@@ -52,6 +52,21 @@
                 console.error('Error fetching location data:', error);
                 alert('Gagal memuat data lokasi. Silakan coba lagi.');
             });
+            fetch('/api/layers/batas_desa')
+            .then(response => response.json())
+            .then(data => {
+                L.geoJSON(data, {
+                    style: function(feature) {
+                        // Atur style poligon di sini (warna garis, warna isian, dll)
+                        return {
+                            color: "#ff7800",
+                            weight: 2,
+                            opacity: 0.65
+                        };
+                    }
+                }).addTo(map);
+            });
+            
     </script>
 </body>
 </html>
