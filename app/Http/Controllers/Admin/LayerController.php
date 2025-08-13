@@ -23,14 +23,21 @@ class LayerController extends Controller
         $request->validate([
             'nama_layer' => 'required|string|unique:layers,nama_layer',
             'deskripsi' => 'nullable|string',
-            'geojson_file' => 'required|file|mimetypes:application/json',
+            'tipe' => 'required|string|in:katalog,lapisan', // Validasi baru
+            'geojson_file' => 'required|file',
         ]);
+
+        $extension = $request->file('geojson_file')->getClientOriginalExtension();
+        if (!in_array(strtolower($extension), ['geojson', 'json'])) {
+            return back()->withErrors(['geojson_file' => 'File harus berekstensi .geojson atau .json']);
+        }
 
         $content = $request->file('geojson_file')->get();
 
         Layer::create([
             'nama_layer' => $request->nama_layer,
             'deskripsi' => $request->deskripsi,
+            'tipe' => $request->tipe, // Simpan data tipe
             'geojson_content' => $content,
         ]);
 

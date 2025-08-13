@@ -15,21 +15,17 @@
 
     <style>
         body { font-family: 'Poppins', sans-serif; }
-
-        /* CSS Kustom untuk Memperbaiki Swiper */
         .videoSwiper {
             width: 100%;
             padding-top: 50px;
             padding-bottom: 50px;
         }
-
         .videoSwiper .swiper-slide {
             background-position: center;
             background-size: cover;
-            width: 320px; /* Lebar setiap kartu video */
+            width: 320px;
             height: 320px;
         }
-        
         .videoSwiper .swiper-slide .flex-col {
             width: 100%;
             height: 100%;
@@ -88,34 +84,44 @@
 
         <section id="katalog" class="py-20 bg-slate-800 text-white">
             <div class="container mx-auto px-6">
-                <h2 class="text-3xl font-bold text-center mb-12">Katalog Peta Tematik</h2>
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                    <div class="bg-slate-700 p-6 rounded-lg text-center transform hover:scale-105 transition-transform">
+                <h2 class="text-3xl font-bold mb-12 text-center">Katalog Peta Tematik</h2>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 text-left">
+                    <div class="bg-slate-700 p-6 rounded-lg transform hover:scale-105 transition-transform">
                         <h3 class="font-bold text-xl mb-2">Peta Pariwisata</h3>
                         <p class="text-slate-300 mb-4 text-sm">Peta sebaran lokasi wisata alam dan buatan di Garut.</p>
                         <a href="{{ route('peta.tema', 'pariwisata') }}" class="font-semibold text-blue-400 hover:underline">Lihat Peta →</a>
                     </div>
-                    <div class="bg-slate-700 p-6 rounded-lg text-center transform hover:scale-105 transition-transform">
+                    <div class="bg-slate-700 p-6 rounded-lg transform hover:scale-105 transition-transform">
                         <h3 class="font-bold text-xl mb-2">Peta Budaya</h3>
                         <p class="text-slate-300 mb-4 text-sm">Peta sebaran lokasi cagar budaya dan situs bersejarah.</p>
                         <a href="{{ route('peta.tema', 'budaya') }}" class="font-semibold text-blue-400 hover:underline">Lihat Peta →</a>
                     </div>
-                    <div class="bg-slate-700 p-6 rounded-lg text-center transform hover:scale-105 transition-transform">
+                    <div class="bg-slate-700 p-6 rounded-lg transform hover:scale-105 transition-transform">
                         <h3 class="font-bold text-xl mb-2">Batas Kota</h3>
                         <p class="text-slate-300 mb-4 text-sm">Visualisasi batas administrasi wilayah kota Garut.</p>
                         <a href="#" class="font-semibold text-gray-400 cursor-not-allowed">Segera Hadir</a>
                     </div>
-                    <div class="bg-slate-700 p-6 rounded-lg text-center transform hover:scale-105 transition-transform">
+                    <div class="bg-slate-700 p-6 rounded-lg transform hover:scale-105 transition-transform">
                         <h3 class="font-bold text-xl mb-2">Geologi Garut</h3>
                         <p class="text-slate-300 mb-4 text-sm">Informasi mengenai struktur dan kondisi geologi.</p>
                         <a href="#" class="font-semibold text-gray-400 cursor-not-allowed">Segera Hadir</a>
                     </div>
                 </div>
+                
+                <div class="flex justify-end">
+                    <a href="{{ route('peta.kumpulan') }}" class="inline-flex items-center space-x-3 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors">
+                        <span>Lihat Katalog Peta Selengkapnya</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                </div>
             </div>
         </section>
 
         <section id="demografi" class="py-20 bg-white">
-             <div class="container mx-auto px-6 text-center">
+            <div class="container mx-auto px-6 text-center">
                 <h2 class="text-3xl font-bold text-gray-800 mb-4">Demografi Kabupaten Garut</h2>
                 <p class="text-gray-600 mb-8 max-w-2xl mx-auto">Lihat data kependudukan terbaru, komposisi penduduk, dan berbagai statistik penting lainnya dalam visualisasi data yang informatif.</p>
                 <a href="{{ route('demografi') }}" class="bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors">Lihat Detail Demografi</a>
@@ -167,7 +173,6 @@
                 </div>
             </div>
         </section>
-
     </main>
 
     <footer class="bg-slate-900 text-slate-300 py-12">
@@ -177,6 +182,11 @@
         </div>
     </footer>
 
+    <a href="#home" id="scrollTopBtn" class="fixed bottom-6 right-6 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-all duration-300 opacity-0 transform scale-95 z-50 pointer-events-none">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
+        </svg>
+    </a>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
     <script>
@@ -200,6 +210,18 @@
           delay: 3500,
           disableOnInteraction: false,
         },
+      });
+
+      // Script untuk tombol Scroll to Top
+      const scrollTopBtn = document.getElementById('scrollTopBtn');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) { // Tampilkan tombol setelah scroll 300px
+          scrollTopBtn.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+          scrollTopBtn.classList.add('opacity-100', 'scale-100');
+        } else {
+          scrollTopBtn.classList.remove('opacity-100', 'scale-100');
+          scrollTopBtn.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+        }
       });
     </script>
 </body>

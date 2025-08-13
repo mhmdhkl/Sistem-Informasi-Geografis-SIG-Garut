@@ -25,7 +25,10 @@ class PetaController extends Controller
     {
         return view('peta', ['tema' => $tema]);
     }
-    
+    public function petaLayer($nama_layer)
+    {
+        return view('peta-layer', ['nama_layer' => $nama_layer]);
+    }
     public function kumpulanPeta()
     {
         return view('kumpulan-peta');

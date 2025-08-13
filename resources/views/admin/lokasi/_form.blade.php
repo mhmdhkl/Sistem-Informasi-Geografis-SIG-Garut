@@ -16,11 +16,13 @@
         <input type="text" name="nama_lokasi" id="nama_lokasi" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="{{ old('nama_lokasi', $lokasi->nama_lokasi ?? '') }}" required>
     </div>
     <div>
-        <label for="kategori" class="block font-medium text-sm text-gray-700">Kategori</label>
-        <select name="kategori" id="kategori" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" required>
-            <option value="Budaya" {{ (old('kategori', $lokasi->kategori ?? '') == 'Budaya') ? 'selected' : '' }}>Budaya</option>
-            <option value="Pariwisata" {{ (old('kategori', $lokasi->kategori ?? '') == 'Pariwisata') ? 'selected' : '' }}>Pariwisata</option>
-        </select>
+    <label for="kategori" class="block font-medium text-sm text-gray-700">Kategori</label>
+        @php
+            // Ambil kategori dari URL saat membuat data, atau dari data yang ada saat mengedit
+            $defaultKategori = request()->get('kategori', 'Pariwisata');
+            $currentKategori = $lokasi->kategori ?? $defaultKategori;
+        @endphp
+        <input type="text" name="kategori" id="kategori" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm bg-gray-100" value="{{ $currentKategori }}" readonly>
     </div>
     <div class="md:col-span-2">
         <label for="alamat" class="block font-medium text-sm text-gray-700">Alamat</label>

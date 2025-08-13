@@ -11,42 +11,39 @@
 <body class="bg-gray-50">
     <div class="container mx-auto px-6 py-12">
         <div class="flex justify-between items-center mb-8">
-            <h1 class="text-3xl font-bold text-gray-800">Galeri untuk Kabupaten Garut Satu Peta</h1>
-            <a href="{{ route('home') }}" class="text-blue-600 hover:underline">← Kembali ke Home</a>
+            <h1 class="text-3xl font-bold text-gray-800">Galeri Peta Tematik</h1>
+            <a href="{{ route('home') }}" class="text-blue-600 hover:underline">← Kembali ke Halaman Utama</a>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 flex flex-col justify-between">
+            
+            <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 flex flex-col justify-between transform hover:scale-105 transition-transform">
                 <div>
                     <h2 class="text-xl font-bold mb-2">Pariwisata</h2>
-                    <p class="text-gray-600 text-sm mb-4">Peta interaktif ini menampilkan berbagai destinasi pariwisata unggulan di Kabupaten Garut, mulai dari pantai hingga pegunungan.</p>
+                    <p class="text-gray-600 text-sm mb-4">Peta interaktif ini menampilkan berbagai destinasi pariwisata unggulan di Kabupaten Garut.</p>
                 </div>
                 <a href="{{ route('peta.tema', 'pariwisata') }}" class="font-semibold text-blue-600 hover:text-blue-800 self-start">Lihat Peta →</a>
             </div>
 
-            <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 flex flex-col justify-between">
+            <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 flex flex-col justify-between transform hover:scale-105 transition-transform">
                 <div>
                     <h2 class="text-xl font-bold mb-2">Budaya</h2>
-                    <p class="text-gray-600 text-sm mb-4">Jelajahi warisan budaya Garut melalui peta sebaran cagar budaya, situs bersejarah, dan pusat-pusat kesenian tradisional.</p>
+                    <p class="text-gray-600 text-sm mb-4">Jelajahi warisan budaya Garut melalui peta sebaran cagar budaya dan situs bersejarah.</p>
                 </div>
                 <a href="{{ route('peta.tema', 'budaya') }}" class="font-semibold text-blue-600 hover:text-blue-800 self-start">Lihat Peta →</a>
             </div>
 
-            <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 flex flex-col justify-between opacity-50">
+            @forelse ($katalogPeta as $peta)
+            <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 flex flex-col justify-between transform hover:scale-105 transition-transform">
                 <div>
-                    <h2 class="text-xl font-bold mb-2">Batas Kota</h2>
-                    <p class="text-gray-600 text-sm mb-4">Visualisasi batas administrasi untuk perencanaan dan analisis kewilayahan.</p>
+                    <h2 class="text-xl font-bold mb-2">{{ $peta->deskripsi }}</h2>
+                    <p class="text-gray-600 text-sm mb-4">Menampilkan layer peta: <span class="font-mono bg-gray-100 px-1 rounded">{{ $peta->nama_layer }}</span></p>
                 </div>
-                <span class="font-semibold text-gray-400">Segera Hadir</span>
+                <a href="{{ route('peta.layer', $peta->nama_layer) }}" class="font-semibold text-blue-600 hover:text-blue-800 self-start">Lihat Peta →</a>
             </div>
+            @empty
+                @endforelse
 
-             <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6 flex flex-col justify-between opacity-50">
-                <div>
-                    <h2 class="text-xl font-bold mb-2">Geologi Garut</h2>
-                    <p class="text-gray-600 text-sm mb-4">Informasi mengenai struktur dan kondisi geologi wilayah Kabupaten Garut.</p>
-                </div>
-                <span class="font-semibold text-gray-400">Segera Hadir</span>
-            </div>
         </div>
     </div>
 </body>

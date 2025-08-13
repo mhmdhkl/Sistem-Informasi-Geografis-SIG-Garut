@@ -9,10 +9,13 @@ use Illuminate\Support\Facades\Storage;
 
 class LokasiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $lokasis = Lokasi::latest()->paginate(10); 
-        return view('admin.lokasi.index', compact('lokasis'));
+        $kategori = $request->get('kategori', 'Pariwisata');
+
+        $lokasis = Lokasi::where('kategori', $kategori)->latest()->paginate(10);
+
+        return view('admin.lokasi.index', compact('lokasis', 'kategori'));
     }
 
 

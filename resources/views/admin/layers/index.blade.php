@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Data Lokasi') }}
+            {{ __('Data Layer Peta (GeoJSON)') }}
         </h2>
     </x-slot>
 
@@ -10,9 +10,9 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div class="flex justify-between items-center mb-6">
-                        <h3 class="text-2xl font-bold">Daftar Lokasi {{ $kategori }}</h3>
-                        <a href="{{ route('lokasi.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                            Tambah Data
+                        <h3 class="text-2xl font-bold">Daftar Layer Peta</h3>
+                        <a href="{{ route('layers.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                            Impor Layer Baru
                         </a>
                     </div>
 
@@ -27,22 +27,19 @@
                             <thead class="bg-gray-200">
                                 <tr>
                                     <th class="py-3 px-6 text-left">No</th>
-                                    <th class="py-3 px-6 text-left">Nama Lokasi</th>
-                                    <th class="py-3 px-6 text-left">Kategori</th>
-                                    <th class="py-3 px-6 text-left">Alamat</th>
+                                    <th class="py-3 px-6 text-left">Nama Layer</th>
+                                    <th class="py-3 px-6 text-left">Deskripsi</th>
                                     <th class="py-3 px-6 text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @forelse ($lokasis as $index => $lokasi)
+                                @forelse ($layers as $index => $layer)
                                     <tr class="border-b">
                                         <td class="py-3 px-6">{{ $index + 1 }}</td>
-                                        <td class="py-3 px-6">{{ $lokasi->nama_lokasi }}</td>
-                                        <td class="py-3 px-6">{{ $lokasi->kategori }}</td>
-                                        <td class="py-3 px-6">{{ Str::limit($lokasi->alamat, 50) }}</td>
-                                        <td class="py-3 px-6 text-center flex justify-center space-x-2">
-                                            <a href="{{ route('lokasi.edit', $lokasi->id) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-3 rounded">Edit</a>
-                                            <form action="{{ route('lokasi.destroy', $lokasi->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
+                                        <td class="py-3 px-6 font-mono">{{ $layer->nama_layer }}</td>
+                                        <td class="py-3 px-6">{{ $layer->deskripsi }}</td>
+                                        <td class="py-3 px-6 text-center">
+                                            <form action="{{ route('layers.destroy', $layer->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus layer ini? Ini tidak bisa dibatalkan.');">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">Hapus</button>
@@ -51,7 +48,7 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="py-4 px-6 text-center text-gray-500">Tidak ada data lokasi.</td>
+                                        <td colspan="4" class="py-4 px-6 text-center text-gray-500">Belum ada data layer yang diimpor.</td>
                                     </tr>
                                 @endforelse
                             </tbody>

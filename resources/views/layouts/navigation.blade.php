@@ -16,8 +16,11 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                     
-                    <x-nav-link :href="route('lokasi.index')" :active="request()->routeIs('lokasi.*')">
-                        {{ __('Data Lokasi') }}
+                    <x-nav-link :href="route('lokasi.index', ['kategori' => 'Pariwisata'])" :active="request()->get('kategori') == 'Pariwisata'">
+                        {{ __('Lokasi Pariwisata') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('lokasi.index', ['kategori' => 'Budaya'])" :active="request()->get('kategori') == 'Budaya'">
+                        {{ __('Lokasi Budaya') }}
                     </x-nav-link>
 
                     <x-nav-link :href="route('statistik.index')" :active="request()->routeIs('statistik.*')">
