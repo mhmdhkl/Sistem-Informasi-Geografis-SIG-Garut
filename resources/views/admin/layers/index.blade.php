@@ -39,11 +39,20 @@
                                         <td class="py-3 px-6 font-mono">{{ $layer->nama_layer }}</td>
                                         <td class="py-3 px-6">{{ $layer->deskripsi }}</td>
                                         <td class="py-3 px-6 text-center">
-                                            <form action="{{ route('layers.destroy', $layer->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus layer ini? Ini tidak bisa dibatalkan.');">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">Hapus</button>
-                                            </form>
+                                            <!-- Tombol Aksi dalam satu container flex -->
+                                            <div class="flex justify-center items-center space-x-2">
+                                                <!-- TOMBOL EDIT DITAMBAHKAN DI SINI -->
+                                                <a href="{{ route('layers.edit', $layer->id) }}" class="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-1 px-3 rounded">
+                                                    Edit
+                                                </a>
+
+                                                <!-- Tombol Hapus -->
+                                                <form action="{{ route('layers.destroy', $layer->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus layer ini? Ini tidak bisa dibatalkan.');">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-3 rounded">Hapus</button>
+                                                </form>
+                                            </div>
                                         </td>
                                     </tr>
                                 @empty
