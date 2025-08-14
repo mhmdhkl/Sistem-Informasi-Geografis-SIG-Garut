@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin\StatistikController;
 use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\LayerController;
 use App\Http\Controllers\KumpulanPetaController;
+use App\Http\Controllers\DemografiController;
+use App\Http\Controllers\Admin\DemografiCrudController;
 
 // Halaman utama
 Route::get('/', [PetaController::class, 'index'])->name('home');
@@ -19,7 +21,7 @@ Route::get('/peta/{tema}', [PetaController::class, 'peta'])->name('peta.tema');
 Route::get('/kumpulan-peta', [KumpulanPetaController::class, 'index'])->name('peta.kumpulan');
 
 // Halaman Demografi
-Route::get('/demografi', [PetaController::class, 'demografi'])->name('demografi');
+Route::get('/demografi', [DemografiController::class, 'index'])->name('demografi');
 
 Route::get('/peta-layer/{nama_layer}', [PetaController::class, 'petaLayer'])->name('peta.layer');
 
@@ -43,6 +45,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/admin/statistik', [StatistikController::class, 'index'])->name('statistik.index');
     Route::put('/admin/statistik', [StatistikController::class, 'update'])->name('statistik.update');
+    Route::resource('admin/demografi', DemografiCrudController::class)->names('admin.demografi');
 
     Route::resource('/admin/berita', BeritaController::class)
          ->parameters(['berita' => 'berita']);

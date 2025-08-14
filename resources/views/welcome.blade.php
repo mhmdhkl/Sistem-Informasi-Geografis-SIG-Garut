@@ -15,20 +15,43 @@
 
     <style>
         body { font-family: 'Poppins', sans-serif; }
+
+        /* Style untuk Hero Slideshow */
+        .hero-swiper {
+            width: 100%;
+            height: 100vh;
+        }
+        .hero-swiper .swiper-slide {
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+        .hero-swiper .slide-caption {
+            width: 100%;
+            padding: 2rem 4rem;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            color: white;
+        }
+        .hero-swiper .swiper-button-prev,
+        .hero-swiper .swiper-button-next {
+            color: #ffffff;
+        }
+        
+        .slide-bg-1 { background-image: url("{{ asset('images/cover-pantai.jpg') }}"); }
+        .slide-bg-2 { background-image: url("{{ asset('images/cover-candi.jpg') }}"); }
+        .slide-bg-3 { background-image: url("{{ asset('images/cover-papandayan.jpg') }}"); }
+
+        /* Style untuk Video Swiper */
         .videoSwiper {
             width: 100%;
             padding-top: 50px;
             padding-bottom: 50px;
         }
         .videoSwiper .swiper-slide {
-            background-position: center;
-            background-size: cover;
             width: 320px;
             height: 320px;
-        }
-        .videoSwiper .swiper-slide .flex-col {
-            width: 100%;
-            height: 100%;
         }
     </style>
 </head>
@@ -54,10 +77,30 @@
     </header>
 
     <main class="w-full">
-        <section id="home" class="h-screen bg-cover bg-center flex items-center justify-center text-white" style="background-image: url('https://images.unsplash.com/photo-1519046904884-53103b34b206?q=80&w=2070&auto=format&fit=crop');">
-            <div class="text-center bg-black/50 p-8 rounded-lg">
-                <h1 class="text-3xl md:text-5xl font-bold mb-4">Sistem Informasi Geografis Garut</h1>
-                <p class="text-lg md:text-xl">Menjelajahi Potensi Budaya dan Pariwisata Kabupaten Garut</p>
+        <section id="home">
+            <div class="swiper-container hero-swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide slide-bg-1">
+                        <div class="slide-caption text-center">
+                            <h1 class="text-3xl md:text-5xl font-bold mb-2">Sistem Informasi Geografis Garut</h1>
+                            <p class="text-lg md:text-xl">Menjelajahi Potensi Budaya dan Pariwisata Kabupaten Garut</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide slide-bg-2">
+                        <div class="slide-caption text-center">
+                            <h1 class="text-3xl md:text-5xl font-bold mb-2">Candi Cangkuang</h1>
+                            <p class="text-lg md:text-xl">Situs Candi Hindu Pertama yang Ditemukan di Tatar Sunda</p>
+                        </div>
+                    </div>
+                    <div class="swiper-slide slide-bg-3">
+                        <div class="slide-caption text-center">
+                            <h1 class="text-3xl md:text-5xl font-bold mb-2">Gunung Papandayan</h1>
+                            <p class="text-lg md:text-xl">Pesona Kawah dan Hutan Mati yang Memukau</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-button-prev"></div>
             </div>
         </section>
 
@@ -85,7 +128,6 @@
         <section id="katalog" class="py-20 bg-slate-800 text-white">
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl font-bold mb-12 text-center">Katalog Peta Tematik</h2>
-                
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 text-left">
                     <div class="bg-slate-700 p-6 rounded-lg transform hover:scale-105 transition-transform">
                         <h3 class="font-bold text-xl mb-2">Peta Pariwisata</h3>
@@ -108,7 +150,6 @@
                         <a href="#" class="font-semibold text-gray-400 cursor-not-allowed">Segera Hadir</a>
                     </div>
                 </div>
-                
                 <div class="flex justify-end">
                     <a href="{{ route('peta.kumpulan') }}" class="inline-flex items-center space-x-3 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors">
                         <span>Lihat Katalog Peta Selengkapnya</span>
@@ -187,42 +228,58 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7" />
         </svg>
     </a>
+    
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
     <script>
-      var swiper = new Swiper(".videoSwiper", {
-        effect: "coverflow",
-        grabCursor: true,
-        centeredSlides: true,
-        slidesPerView: "auto",
-        loop: true,
-        coverflowEffect: {
-          rotate: 50,
-          stretch: 0,
-          depth: 100,
-          modifier: 1,
-          slideShadows: true,
-        },
-        pagination: {
-          el: ".swiper-pagination",
-        },
-        autoplay: {
-          delay: 3500,
-          disableOnInteraction: false,
-        },
-      });
+        // Inisialisasi untuk Hero Swiper (Slideshow Cover)
+        var heroSwiper = new Swiper('.hero-swiper', {
+            loop: true,
+            effect: 'fade',
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+        });
 
-      // Script untuk tombol Scroll to Top
-      const scrollTopBtn = document.getElementById('scrollTopBtn');
-      window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) { // Tampilkan tombol setelah scroll 300px
-          scrollTopBtn.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
-          scrollTopBtn.classList.add('opacity-100', 'scale-100');
-        } else {
-          scrollTopBtn.classList.remove('opacity-100', 'scale-100');
-          scrollTopBtn.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
-        }
-      });
+        // Inisialisasi untuk Video Swiper
+        var videoSwiper = new Swiper(".videoSwiper", {
+            effect: "coverflow",
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: "auto",
+            loop: true,
+            coverflowEffect: {
+              rotate: 50,
+              stretch: 0,
+              depth: 100,
+              modifier: 1,
+              slideShadows: true,
+            },
+            pagination: {
+              el: ".swiper-pagination",
+            },
+            autoplay: {
+              delay: 3500,
+              disableOnInteraction: false,
+            },
+        });
+
+        // Script untuk tombol Scroll to Top
+        const scrollTopBtn = document.getElementById('scrollTopBtn');
+        window.addEventListener('scroll', () => {
+          if (window.scrollY > 300) {
+            scrollTopBtn.classList.remove('opacity-0', 'scale-95', 'pointer-events-none');
+            scrollTopBtn.classList.add('opacity-100', 'scale-100');
+          } else {
+            scrollTopBtn.classList.remove('opacity-100', 'scale-100');
+            scrollTopBtn.classList.add('opacity-0', 'scale-95', 'pointer-events-none');
+          }
+        });
     </script>
 </body>
 </html>
