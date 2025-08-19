@@ -1,6 +1,8 @@
 # Sistem Informasi Geografis (SIG) Kabupaten Garut
 Sebuah platform berbasis web untuk visualisasi data geografis seputar pariwisata dan kebudayaan di Kabupaten Garut.
-
+<p align="center">
+<img src="public/images/logo-garut.png" alt="Logo Garut" width="150"/>
+    
 -----
 
 ## 📜 Tentang Proyek
