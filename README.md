@@ -1,61 +1,149 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistem Informasi Geografis (SIG) Kabupaten Garut
+Sebuah platform berbasis web untuk visualisasi data geografis seputar pariwisata dan kebudayaan di Kabupaten Garut.
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+-----
 
-## About Laravel
+## 📜 Tentang Proyek
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Proyek ini merupakan Sistem Informasi Geografis (SIG) yang dibangun untuk memetakan dan menyajikan data spasial terkait potensi pariwisata, cagar budaya, demografi, dan informasi penting lainnya di wilayah Kabupaten Garut. Aplikasi ini dilengkapi dengan *dashboard* admin untuk mengelola seluruh konten, mulai dari data lokasi hingga lapisan peta GeoJSON.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Proyek ini dikembangkan sebagai bagian dari Kerja Praktik di Dinas Komunikasi dan Informatika (Diskominfo) Kabupaten Garut.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 📸 Tampilan Web
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+-----
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## ✨ Fitur Utama
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+  - **Peta Interaktif**: Visualisasi lokasi dan lapisan peta menggunakan **Leaflet.js**.
+  - **Katalog Peta Tematik**: Pengelompokan peta berdasarkan kategori seperti pariwisata, budaya, dan batas wilayah.
+  - **Visualisasi Data**: Tampilan data demografi dalam bentuk kartu statistik dan grafik dinamis menggunakan **Chart.js**.
+  - **Berita Terkini**: Menampilkan berita-berita terbaru yang relevan dari sumber eksternal.
+  - **Video Galeri**: *Slideshow* video dari YouTube menggunakan **Swiper.js**.
+  - **Dashboard Admin Lengkap**:
+      - Sistem otentikasi untuk admin.
+      - **CRUD** (Create, Read, Update, Delete) untuk semua jenis data:
+          - Lokasi Pariwisata & Budaya (dengan koordinat).
+          - Data Statistik Umum.
+          - Data Demografi per Kecamatan.
+          - Berita.
+          - Layer Peta (upload file GeoJSON).
+      - Ringkasan data total di halaman utama *dashboard*.
 
-## Laravel Sponsors
+-----
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🛠️ Teknologi yang Digunakan
 
-### Premium Partners
+  - **Backend**: Laravel 11, PHP 8.2+
+  - **Frontend**: Tailwind CSS, Alpine.js
+  - **Database**: MySQL
+  - **Pustaka (Libraries)**:
+      - **Leaflet.js**: Untuk peta interaktif.
+      - **Chart.js**: Untuk grafik data.
+      - **Swiper.js**: Untuk *carousel* dan *slideshow*.
+  - **Development Environment**: Vite, Laragon
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+-----
 
-## Contributing
+## 🚀 Panduan Instalasi
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Berikut adalah langkah-langkah untuk menjalankan proyek ini di lingkungan lokal Anda.
 
-## Code of Conduct
+### Prasyarat
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+  - PHP \>= 8.2
+  - Composer
+  - Node.js & NPM
+  - Database Server (contoh: MySQL)
 
-## Security Vulnerabilities
+### Langkah-langkah
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+1.  **Clone repositori ini:**
 
-## License
+    ```bash
+    git clone https://github.com/username/nama-repositori.git
+    cd nama-repositori
+    ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+2.  **Instal dependensi PHP:**
+
+    ```bash
+    composer install
+    ```
+
+3.  **Instal dependensi JavaScript:**
+
+    ```bash
+    npm install
+    ```
+
+4.  **Salin file `.env.example` menjadi `.env`:**
+
+    ```bash
+    copy .env.example .env
+    ```
+
+5.  **Generate *application key*:**
+
+    ```bash
+    php artisan key:generate
+    ```
+
+6.  **Konfigurasi database Anda di file `.env`:**
+
+    ```
+    DB_CONNECTION=mysql
+    DB_HOST=127.0.0.1
+    DB_PORT=3306
+    DB_DATABASE=nama_database_anda
+    DB_USERNAME=root
+    DB_PASSWORD=password_anda
+    ```
+
+7.  **Jalankan migrasi database untuk membuat semua tabel:**
+
+    ```bash
+    php artisan migrate
+    ```
+
+8.  **Jalankan *database seeder* untuk mengisi data awal:**
+
+    ```bash
+    php artisan db:seed
+    ```
+
+9.  **Buat *symbolic link* untuk *storage*:**
+
+    ```bash
+    php artisan storage:link
+    ```
+
+10. **Jalankan *Vite development server*:**
+
+    ```bash
+    npm run dev
+    ```
+
+11. **(Di terminal baru) Jalankan server Laravel:**
+
+    ```bash
+    php artisan serve
+    ```
+
+Aplikasi sekarang dapat diakses di `http://127.0.0.1:8000`.
+
+### Akun Admin
+
+Untuk masuk ke halaman *dashboard*, gunakan kredensial default berikut:
+
+  - **Email**: `admin@example.com`
+  - **Password**: `12345678`
+
+-----
+
+## 📝 Lisensi
+
+Proyek ini dilisensikan di bawah [MIT License](LICENSE.md).
+
+-----
