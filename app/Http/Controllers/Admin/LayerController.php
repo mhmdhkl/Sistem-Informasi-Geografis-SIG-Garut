@@ -1,6 +1,5 @@
 <?php
 
-// PERBAIKAN UTAMA ADA DI BARIS INI
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -20,7 +19,7 @@ class LayerController extends Controller
     {
         return view('admin.layers.create');
     }
-    
+
     public function store(Request $request)
     {
         $request->validate([
@@ -28,19 +27,18 @@ class LayerController extends Controller
             'deskripsi' => 'nullable|string',
             'geojson_file' => 'required|file',
         ]);
-        
+
         $extension = $request->file('geojson_file')->getClientOriginalExtension();
         if (!in_array(strtolower($extension), ['geojson', 'json'])) {
             return back()->withErrors(['geojson_file' => 'File harus berekstensi .geojson atau .json']);
         }
 
-        // Simpan file dan dapatkan path-nya
-        $path = $request->file('geojson_file')->store('geojson_layers', 'public');
+        $content = $request->file('geojson_file')->get();
 
         Layer::create([
             'nama_layer' => $request->nama_layer,
             'deskripsi' => $request->deskripsi,
-            'geojson_path' => $path, // Pastikan nama kolom di DB adalah 'geojson_path'
+            'geojson_content' => $content, 
         ]);
 
         return redirect()->route('layers.index')->with('success', 'Layer GeoJSON berhasil diunggah.');
@@ -53,47 +51,38 @@ class LayerController extends Controller
 
     public function update(Request $request, Layer $layer)
     {
+        
         $request->validate([
             'nama_layer' => 'required|string|max:255|unique:layers,nama_layer,' . $layer->id,
             'deskripsi' => 'nullable|string',
-            'geojson_file' => 'nullable|file', // Opsional saat update
+            'geojson_file' => 'nullable|file', 
         ]);
+
         
-        // Cek ekstensi jika ada file baru
+        $dataToUpdate = $request->only('nama_layer', 'deskripsi');
+
+        
         if ($request->hasFile('geojson_file')) {
             $extension = $request->file('geojson_file')->getClientOriginalExtension();
             if (!in_array(strtolower($extension), ['geojson', 'json'])) {
                 return back()->withErrors(['geojson_file' => 'File harus berekstensi .geojson atau .json']);
             }
+            
+            
+            $dataToUpdate['geojson_content'] = $request->file('geojson_file')->get();
         }
 
-        $dataToUpdate = $request->only('nama_layer', 'deskripsi');
-
-        if ($request->hasFile('geojson_file')) {
-            // Hapus file lama jika ada
-            if ($layer->geojson_path && Storage::disk('public')->exists($layer->geojson_path)) {
-                Storage::disk('public')->delete($layer->geojson_path);
-            }
-
-            // Simpan file baru dan dapatkan path-nya
-            $path = $request->file('geojson_file')->store('geojson_layers', 'public');
-            $dataToUpdate['geojson_path'] = $path;
-        }
-
+        
         $layer->update($dataToUpdate);
 
+        
         return redirect()->route('layers.index')->with('success', 'Layer berhasil diperbarui.');
     }
 
     public function destroy(Layer $layer)
     {
-        // Hapus file dari storage sebelum menghapus record dari DB
-        if ($layer->geojson_path && Storage::disk('public')->exists($layer->geojson_path)) {
-            Storage::disk('public')->delete($layer->geojson_path);
-        }
         
         $layer->delete();
-
         return redirect()->route('layers.index')->with('success', 'Layer berhasil dihapus.');
     }
 }

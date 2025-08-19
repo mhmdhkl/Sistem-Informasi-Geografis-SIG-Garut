@@ -18,7 +18,6 @@
     <div>
     <label for="kategori" class="block font-medium text-sm text-gray-700">Kategori</label>
         @php
-            // Ambil kategori dari URL saat membuat data, atau dari data yang ada saat mengedit
             $defaultKategori = request()->get('kategori', 'Pariwisata');
             $currentKategori = $lokasi->kategori ?? $defaultKategori;
         @endphp

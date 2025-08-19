@@ -14,11 +14,11 @@ class DemografiController extends Controller
     {
         $statistik = Statistik::all()->keyBy('nama_data');
 
-        // PERBAIKAN: Cek satu per satu apakah data statistik ada sebelum mengaksesnya
+        
         $jumlahKecamatan = $statistik['jumlah_kecamatan']->nilai_data ?? 0;
         $jumlahDesa = $statistik['jumlah_desa']->nilai_data ?? 0;
 
-        // Siapkan data khusus untuk dikonsumsi oleh Chart.js
+        
         $chartData = [
             'labels' => ['Jumlah Kecamatan', 'Jumlah Desa/Kelurahan'],
             'data'   => [$jumlahKecamatan, $jumlahDesa],

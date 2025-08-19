@@ -27,12 +27,20 @@
                         <div class="space-y-4">
                             <div>
                                 <label for="nama_layer" class="block font-medium text-sm text-gray-700">Nama Layer (Identifier)</label>
-                                <input type="text" name="nama_layer" id="nama_layer" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm font-mono" value="{{ old('nama_layer', $layer->nama_layer ?? '') }}" placeholder="contoh: batas_desa (tanpa spasi, huruf kecil)" required>
+                                <input type="text" name="nama_layer" id="nama_layer" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm font-mono" value="{{ old('nama_layer') }}" placeholder="contoh: batas_desa (tanpa spasi, huruf kecil)" required>
                                 <p class="text-xs text-gray-500 mt-1">Nama ini akan digunakan di URL API, misal: /api/layers/batas_desa.</p>
                             </div>
                             <div>
-                                <label for="deskripsi" class="block font-medium text-sm text-gray-700">Deskripsi Singkat</label>
-                                <input type="text" name="deskripsi" id="deskripsi" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="{{ old('deskripsi', $layer->deskripsi ?? '') }}" placeholder="Contoh: Layer Poligon Batas Desa se-Kabupaten Garut">
+                                <label for="deskripsi" class="block font-medium text-sm text-gray-700">Deskripsi Singkat (Judul Peta)</label>
+                                <input type="text" name="deskripsi" id="deskripsi" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" value="{{ old('deskripsi') }}" placeholder="Contoh: Peta Batas Desa Kabupaten Garut">
+                            </div>
+
+                            <div>
+                                <label for="tipe" class="block font-medium text-sm text-gray-700">Tipe Layer</label>
+                                <select name="tipe" id="tipe" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm">
+                                    <option value="katalog">Peta Katalog (Untuk ditampilkan di Galeri Peta)</option>
+                                    <option value="lapisan">Lapisan Tambahan (Untuk Peta Tematik)</option>
+                                </select>
                             </div>
                             <div>
                                 <label for="geojson_file" class="block font-medium text-sm text-gray-700">File GeoJSON (.geojson)</label>
