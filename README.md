@@ -62,8 +62,8 @@ Berikut adalah langkah-langkah untuk menjalankan proyek ini di lingkungan lokal 
 1.  **Clone repositori ini:**
 
     ```bash
-    git clone https://github.com/username/nama-repositori.git
-    cd nama-repositori
+    git clone Sistem-Informasi-Geografis-SIG-Garut.git
+    cd Sistem-Informasi-Geografis-SIG-Garut
     ```
 
 2.  **Instal dependensi PHP:**
@@ -96,9 +96,9 @@ Berikut adalah langkah-langkah untuk menjalankan proyek ini di lingkungan lokal 
     DB_CONNECTION=mysql
     DB_HOST=127.0.0.1
     DB_PORT=3306
-    DB_DATABASE=nama_database_anda
+    DB_DATABASE=sig_garut
     DB_USERNAME=root
-    DB_PASSWORD=password_anda
+    DB_PASSWORD=
     ```
 
 7.  **Jalankan migrasi database untuk membuat semua tabel:**
@@ -140,10 +140,3 @@ Untuk masuk ke halaman *dashboard*, gunakan kredensial default berikut:
   - **Email**: `admin@example.com`
   - **Password**: `12345678`
 
------
-
-## 📝 Lisensi
-
-Proyek ini dilisensikan di bawah [MIT License](LICENSE.md).
-
------
