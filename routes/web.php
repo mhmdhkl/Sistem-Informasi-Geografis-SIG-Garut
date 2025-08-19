@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\LayerController;
 use App\Http\Controllers\KumpulanPetaController;
 use App\Http\Controllers\DemografiController;
 use App\Http\Controllers\Admin\DemografiCrudController;
+use App\Http\Controllers\Admin\DashboardController;
+
 
 // Halaman utama
 Route::get('/', [PetaController::class, 'index'])->name('home');
@@ -34,7 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     
     Route::get('/admin/lokasi', [LokasiController::class, 'index'])->name('lokasi.index');
     Route::get('/admin/lokasi/create', [LokasiController::class, 'create'])->name('lokasi.create');

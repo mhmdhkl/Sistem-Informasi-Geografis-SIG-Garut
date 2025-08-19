@@ -3,10 +3,13 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex">
-                <!-- Logo -->
+                <!-- Logo, Nama Pemda, dan Link ke Homepage -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                    <a href="{{ url('/') }}">
+                        <img src="{{ asset('images/logo-garut.png') }}" alt="Logo Garut" class="block h-10 w-auto">
+                    </a>
+                    <a href="{{ url('/') }}" class="hidden sm:block ml-3 font-bold text-gray-700 hover:text-gray-900">
+                        Pemerintahan<br>Kabupaten Garut
                     </a>
                 </div>
 
