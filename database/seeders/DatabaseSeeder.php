@@ -17,6 +17,8 @@ class DatabaseSeeder extends Seeder
             LokasiSeeder::class,
             StatistikSeeder::class,
             BeritaSeeder::class,
+            VideoSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }
