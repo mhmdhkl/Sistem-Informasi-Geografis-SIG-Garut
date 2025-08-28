@@ -9,7 +9,7 @@
                         <img src="{{ asset('images/logo-garut.png') }}" alt="Logo Garut" class="block h-10 w-auto">
                     </a>
                     <a href="{{ url('/') }}" class="hidden sm:block ml-3 font-bold text-gray-700 hover:text-gray-900">
-                        Pemerintahan<br>Kabupaten Garut
+                        Sistem Informasi Geografis<br>Kabupaten Garut
                     </a>
                 </div>
 

@@ -126,40 +126,59 @@
         </section>
 
         <section id="katalog" class="py-20 bg-slate-800 text-white">
-            <div class="container mx-auto px-6">
-                <h2 class="text-3xl font-bold mb-12 text-center">Katalog Peta Tematik</h2>
-                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 text-left">
-                    <div class="bg-slate-700 p-6 rounded-lg transform hover:scale-105 transition-transform">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl font-bold mb-12">Katalog Peta Tematik</h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12 text-left">
+                
+                <div class="bg-slate-700 rounded-lg transform hover:scale-105 transition-transform overflow-hidden">
+                    <img src="{{ asset('images/thumb-pariwisata.png') }}" alt="Thumbnail Peta Pariwisata" class="w-full h-40 object-cover">
+                    <div class="p-6">
                         <h3 class="font-bold text-xl mb-2">Peta Pariwisata</h3>
                         <p class="text-slate-300 mb-4 text-sm">Peta sebaran lokasi wisata alam dan buatan di Garut.</p>
                         <a href="{{ route('peta.tema', 'pariwisata') }}" class="font-semibold text-blue-400 hover:underline">Lihat Peta →</a>
                     </div>
-                    <div class="bg-slate-700 p-6 rounded-lg transform hover:scale-105 transition-transform">
+                </div>
+
+                <div class="bg-slate-700 rounded-lg transform hover:scale-105 transition-transform overflow-hidden">
+                    <img src="{{ asset('images/thumb-budaya.png') }}" alt="Thumbnail Peta Budaya" class="w-full h-40 object-cover">
+                    <div class="p-6">
                         <h3 class="font-bold text-xl mb-2">Peta Budaya</h3>
                         <p class="text-slate-300 mb-4 text-sm">Peta sebaran lokasi cagar budaya dan situs bersejarah.</p>
                         <a href="{{ route('peta.tema', 'budaya') }}" class="font-semibold text-blue-400 hover:underline">Lihat Peta →</a>
                     </div>
-                    <div class="bg-slate-700 p-6 rounded-lg transform hover:scale-105 transition-transform">
+                </div>
+
+                <div class="bg-slate-700 rounded-lg transform hover:scale-105 transition-transform overflow-hidden">
+                    <img src="{{ asset('images/thumb-batas.png') }}" alt="Thumbnail Batas Kota" class="w-full h-40 object-cover">
+                    <div class="p-6">
                         <h3 class="font-bold text-xl mb-2">Batas Kota</h3>
                         <p class="text-slate-300 mb-4 text-sm">Visualisasi batas administrasi wilayah kota Garut.</p>
                         <a href="#" class="font-semibold text-gray-400 cursor-not-allowed">Segera Hadir</a>
                     </div>
-                    <div class="bg-slate-700 p-6 rounded-lg transform hover:scale-105 transition-transform">
+                </div>
+
+                <div class="bg-slate-700 rounded-lg transform hover:scale-105 transition-transform overflow-hidden">
+                    <img src="{{ asset('images/thumb-geologi.png') }}" alt="Thumbnail Geologi Garut" class="w-full h-40 object-cover">
+                    <div class="p-6">
                         <h3 class="font-bold text-xl mb-2">Geologi Garut</h3>
                         <p class="text-slate-300 mb-4 text-sm">Informasi mengenai struktur dan kondisi geologi.</p>
                         <a href="#" class="font-semibold text-gray-400 cursor-not-allowed">Segera Hadir</a>
                     </div>
                 </div>
-                <div class="flex justify-end">
-                    <a href="{{ route('peta.kumpulan') }}" class="inline-flex items-center space-x-3 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors">
-                        <span>Lihat Katalog Peta Selengkapnya</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </a>
-                </div>
+
             </div>
-        </section>
+            
+            <div class="flex justify-end">
+                <a href="{{ route('peta.kumpulan') }}" class="inline-flex items-center space-x-3 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors">
+                    <span>Lihat Katalog Peta Selengkapnya</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
 
         <section id="demografi" class="py-20 bg-white">
             <div class="container mx-auto px-6 text-center">
