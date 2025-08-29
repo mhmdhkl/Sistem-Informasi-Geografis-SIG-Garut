@@ -48,6 +48,13 @@
             </div>
         @endif
     </div>
+    <div class="mb-4">
+    <label for="ticket_url" class="block text-gray-700 text-sm font-bold mb-2">URL Pembelian Tiket (Opsional)</label>
+    <input type="url" name="ticket_url" id="ticket_url" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ old('ticket_url', $lokasi->ticket_url ?? '') }}">
+    @error('ticket_url')
+        <p class="text-red-500 text-xs italic mt-2">{{ $message }}</p>
+    @enderror
+</div>
 </div>
 <div class="mt-6 flex justify-end">
     <a href="{{ route('lokasi.index') }}" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded mr-2">Batal</a>
