@@ -56,6 +56,9 @@
                                 @endforelse
                             </tbody>
                         </table>
+                        <div class="mt-4">
+                            {{ $lokasis->links() }}
+                        </div>
                     </div>
                 </div>
             </div>
