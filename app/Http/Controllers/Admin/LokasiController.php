@@ -12,8 +12,19 @@ class LokasiController extends Controller
     public function index(Request $request)
     {
         $kategori = $request->get('kategori', 'Pariwisata');
-        $lokasis = Lokasi::where('kategori', $kategori)->latest()->paginate(10);
-        return view('admin.lokasi.index', compact('lokasis', 'kategori'));
+        $sort = $request->get('sort', 'asc');
+        $per_page = $request->get('per_page', 10); 
+
+        $query = Lokasi::where('kategori', $kategori)
+                       ->orderBy('nama_lokasi', $sort);
+
+        if ($per_page == 'all') {
+            $lokasis = $query->get();
+        } else {
+            $lokasis = $query->paginate(is_numeric($per_page) ? $per_page : 10);
+        }
+
+        return view('admin.lokasi.index', compact('lokasis', 'kategori', 'sort', 'per_page'));
     }
 
     public function create()

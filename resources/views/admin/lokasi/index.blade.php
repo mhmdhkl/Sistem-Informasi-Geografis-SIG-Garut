@@ -9,9 +9,9 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <div class="flex justify-between items-center mb-6">
+                    <div class="flex justify-between items-center mb-4">
                         <h3 class="text-2xl font-bold">Daftar Lokasi {{ $kategori }}</h3>
-                        <a href="{{ route('lokasi.create') }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        <a href="{{ route('lokasi.create', ['kategori' => $kategori]) }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Tambah Data
                         </a>
                     </div>
@@ -22,12 +22,35 @@
                         </div>
                     @endif
 
+                    <div class="flex justify-start items-center mb-4 space-x-2">
+                        <label for="per_page" class="text-sm font-medium text-gray-700">Tampilkan:</label>
+                        <select name="per_page" id="per_page" class="rounded-md border-gray-300 shadow-sm text-sm" onchange="window.location.href = this.value">
+                            @php
+                                $queryParams = request()->except('per_page');
+                            @endphp
+                            <option value="{{ route('lokasi.index', array_merge($queryParams, ['per_page' => 10])) }}" {{ $per_page == 10 ? 'selected' : '' }}>10</option>
+                            <option value="{{ route('lokasi.index', array_merge($queryParams, ['per_page' => 25])) }}" {{ $per_page == 25 ? 'selected' : '' }}>25</option>
+                            <option value="{{ route('lokasi.index', array_merge($queryParams, ['per_page' => 50])) }}" {{ $per_page == 50 ? 'selected' : '' }}>50</option>
+                            <option value="{{ route('lokasi.index', array_merge($queryParams, ['per_page' => 'all'])) }}" {{ $per_page == 'all' ? 'selected' : '' }}>Semua</option>
+                        </select>
+                        <span class="text-sm text-gray-600">data per halaman.</span>
+                    </div>
+
                     <div class="overflow-x-auto">
                         <table class="min-w-full bg-white">
                             <thead class="bg-gray-200">
                                 <tr>
                                     <th class="py-3 px-6 text-left">No</th>
-                                    <th class="py-3 px-6 text-left">Nama Lokasi</th>
+                                    <th class="py-3 px-6 text-left">
+                                        <a href="{{ route('lokasi.index', array_merge(request()->query(), ['sort' => $sort == 'asc' ? 'desc' : 'asc'])) }}" class="flex items-center hover:underline">
+                                            Nama Lokasi
+                                            @if($sort == 'asc')
+                                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg>
+                                            @else
+                                                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                                            @endif
+                                        </a>
+                                    </th>
                                     <th class="py-3 px-6 text-left">Kategori</th>
                                     <th class="py-3 px-6 text-left">Alamat</th>
                                     <th class="py-3 px-6 text-center">Aksi</th>
@@ -36,7 +59,7 @@
                             <tbody>
                                 @forelse ($lokasis as $index => $lokasi)
                                     <tr class="border-b">
-                                        <td class="py-3 px-6">{{ $index + 1 }}</td>
+                                        <td class="py-3 px-6">{{ $lokasis instanceof \Illuminate\Pagination\LengthAwarePaginator ? $lokasis->firstItem() + $index : $index + 1 }}</td>
                                         <td class="py-3 px-6">{{ $lokasi->nama_lokasi }}</td>
                                         <td class="py-3 px-6">{{ $lokasi->kategori }}</td>
                                         <td class="py-3 px-6">{{ Str::limit($lokasi->alamat, 50) }}</td>
@@ -56,9 +79,12 @@
                                 @endforelse
                             </tbody>
                         </table>
-                        <div class="mt-4">
-                            {{ $lokasis->links() }}
-                        </div>
+                        
+                        @if($lokasis instanceof \Illuminate\Pagination\LengthAwarePaginator && $lokasis->hasPages())
+                            <div class="mt-4">
+                                {{ $lokasis->appends(request()->query())->links() }}
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
