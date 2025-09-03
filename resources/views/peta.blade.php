@@ -63,8 +63,6 @@
         .popup-content a.ticket-button:hover {
             background-color: #2563eb;
         }
-        
-        /* Tata Letak Kontrol Baru */
         .back-button-container {
             position: absolute;
             top: 20px;
@@ -76,32 +74,55 @@
             top: 20px;
             right: 20px;
             z-index: 1000;
+            width: 280px;
+        }
+        .search-container .relative {
+            width: 100%;
         }
         .search-container input {
-            border: none;
+            border: 1px solid #ccc;
             outline: none;
-            width: 250px;
+            width: 100%;
             padding: 10px 15px;
             border-radius: 8px;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
         }
-        .search-container button {
-            background: none;
-            border: none;
-            padding: 0;
-            cursor: pointer;
-            margin-left: 10px;
+        #search-results {
+            position: absolute;
+            width: 100%;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-top: none;
+            border-radius: 0 0 8px 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            max-height: 300px;
+            overflow-y: auto;
         }
-
-        /* Menggeser kontrol zoom agar tidak tumpang tindih */
+        .search-result-item {
+            padding: 10px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #eee;
+        }
+        .search-result-item:hover {
+            background-color: #f0f0f0;
+        }
+        .search-result-item:last-child {
+            border-bottom: none;
+        }
+        .search-result-item h4 {
+            font-weight: 600;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        .search-result-item p {
+            font-size: 0.8rem;
+            color: #666;
+            margin: 0;
+        }
         .leaflet-control-container .leaflet-top.leaflet-left {
             top: 80px !important;
         }
-        
-        /* Gaya untuk label di atas ikon */
         .leaflet-tooltip.leaflet-tooltip-top.lokasi-label {
-            /* Nilai offset di sini tidak terlalu penting karena sudah diatur di JS,
-               tapi tetap berguna untuk styling dasar. */
             font-weight: bold;
             font-size: 14px;
             color: #333;
@@ -119,7 +140,7 @@
 <body class="bg-gray-50">
 
     <div id="map"></div>
-    
+
     <div class="back-button-container bg-white rounded-lg shadow-md p-3">
         <a href="{{ route('home') }}" class="text-blue-600 hover:underline font-semibold">
             ← Kembali ke Halaman Utama
@@ -127,131 +148,147 @@
     </div>
 
     <div class="search-container">
-        <input type="text" id="search-input" placeholder="Cari lokasi...">
-        <button id="search-button">🔍</button>
+        <div class="relative">
+            <input type="text" id="search-input" placeholder="Cari lokasi wisata..." autocomplete="off">
+            <div id="search-results"></div>
+        </div>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        const map = L.map('map').setView([-7.2278, 107.9087], 11);
-        const markers = {};
+        const map = L.map('map', {
+            zoomControl: true,
+            attributionControl: false  
+        }).setView([-7.2278, 107.9087], 11);
         
-        const zoomControl = map.zoomControl;
-        if (zoomControl) {
-            zoomControl.remove();
-        }
-        L.control.zoom({
-            position: 'topleft'
-        }).addTo(map);
+        const allMarkers = {};
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '© OpenStreetMap contributors'
+            attribution: ''  
         }).addTo(map);
+
+         
 
         fetch('/api/lokasi')
             .then(response => {
-                if (!response.ok) {
-                    throw new Error('Gagal mengambil data lokasi.');
-                }
+                if (!response.ok) throw new Error('Gagal mengambil data lokasi.');
                 return response.json();
             })
             .then(data => {
                 const temaPeta = '{{ $tema }}'.toLowerCase();
                 const filteredData = data.filter(lokasi => lokasi.kategori.toLowerCase() === temaPeta);
-                
+
                 if (filteredData.length === 0) {
                     console.warn('Tidak ada lokasi yang ditemukan untuk kategori ini.');
                 }
-                
-                filteredData.forEach(lokasi => {
-                    let photoUrl = '';
-                    if (lokasi.foto) {
-                        photoUrl = `/storage/${lokasi.foto}`;
-                    } else {
-                        photoUrl = 'https://via.placeholder.com/300x200.png?text=Tidak+Ada+Foto';
-                    }
 
-                    let ticketButton = '';
-                    if (lokasi.ticket_url) {
-                        ticketButton = `<a href="${lokasi.ticket_url}" target="_blank" class="ticket-button">Beli Tiket</a>`;
-                    }
+                const markerGroup = L.markerClusterGroup();
+
+                filteredData.forEach(lokasi => {
+                    let photoUrl = lokasi.foto ? `/storage/${lokasi.foto}` : 'https://via.placeholder.com/300x200.png?text=Tidak+Ada+Foto';
+                    let ticketButton = lokasi.ticket_url ? `<a href="${lokasi.ticket_url}" target="_blank" class="ticket-button">Beli Tiket</a>` : '';
 
                     const popupContent = `
                         <div class="popup-content">
-                            <img src="${photoUrl}" alt="${lokasi.nama_lokasi}" class="w-full h-auto object-cover">
+                            <img src="${photoUrl}" alt="${lokasi.nama_lokasi}">
                             <h3>${lokasi.nama_lokasi}</h3>
-                            <p class="text-gray-600">${lokasi.deskripsi}</p>
-                            <p class="text-sm font-semibold text-gray-800">Alamat:</p>
-                            <p class="text-sm text-gray-600">${lokasi.alamat}</p>
+                            <p>${lokasi.deskripsi}</p>
+                            <p class="text-sm font-semibold">Alamat:</p>
+                            <p>${lokasi.alamat}</p>
                             ${ticketButton}
-                        </div>
-                    `;
+                        </div>`;
 
                     const marker = L.marker([lokasi.latitude, lokasi.longitude])
-                        .bindPopup(popupContent, { minWidth: 200 })
+                        .bindPopup(popupContent, { minWidth: 250 })
                         .bindTooltip(lokasi.nama_lokasi, {
                             permanent: true,
-                            direction: 'top', 
-                            offset: [-15, -15], 
+                            direction: 'top',
+                            offset: [-15, -15],
                             className: 'lokasi-label'
                         });
-                    
-                    marker.addTo(map);
-                    markers[lokasi.nama_lokasi.toLowerCase()] = marker;
+
+                    markerGroup.addLayer(marker);
+                    allMarkers[lokasi.id] = marker;
                 });
 
+                map.addLayer(markerGroup);
+
                 if (filteredData.length > 0) {
-                    const group = new L.featureGroup(filteredData.map(lokasi => L.marker([lokasi.latitude, lokasi.longitude])));
-                    map.fitBounds(group.getBounds());
+                    const groupBounds = markerGroup.getBounds();
+                    if (groupBounds.isValid()) {
+                        map.fitBounds(groupBounds);
+                    }
                 }
             })
             .catch(error => {
                 console.error('Error fetching location data:', error);
                 alert('Gagal memuat data lokasi. Silakan coba lagi.');
             });
-            
-        fetch('/api/layers/batas_desa')
-            .then(response => response.json())
-            .then(data => {
-                L.geoJSON(data, {
-                    style: function(feature) {
-                        return {
-                            color: "#ff7800",
-                            weight: 2,
-                            opacity: 0.65,
-                            fillOpacity: 0.1
-                        };
+        
+        $(document).ready(function() {
+            const searchInput = $('#search-input');
+            const searchResults = $('#search-results');
+
+            searchInput.on('keyup', function() {
+                const keyword = $(this).val();
+                if (keyword.length < 3) {
+                    searchResults.html('').hide();
+                    return;
+                }
+                $.ajax({
+                    url: `/api/search/lokasi/${keyword}`,
+                    type: 'GET',
+                    success: function(response) {
+                        searchResults.html('').show();
+                        if (response.success && response.data.length > 0) {
+                            const temaPeta = '{{ $tema }}'.toLowerCase();
+                            const filteredResults = response.data.filter(lokasi => lokasi.kategori.toLowerCase() === temaPeta);
+
+                            if (filteredResults.length > 0) {
+                                filteredResults.forEach(function(lokasi) {
+                                    const item = `
+                                        <div class="search-result-item" data-id="${lokasi.id}">
+                                            <h4>${lokasi.nama_lokasi}</h4>
+                                            <p>${lokasi.alamat}</p>
+                                        </div>`;
+                                    searchResults.append(item);
+                                });
+                            } else {
+                                searchResults.html('<div class="p-3 text-gray-500">Tidak ada hasil untuk kategori ini.</div>');
+                            }
+                        } else {
+                            searchResults.html('<div class="p-3 text-gray-500">Lokasi tidak ditemukan.</div>');
+                        }
+                    },
+                    error: function() {
+                        searchResults.html('<div class="p-3 text-red-500">Gagal melakukan pencarian.</div>').show();
                     }
-                }).addTo(map);
+                });
             });
-            
-        const searchInput = document.getElementById('search-input');
-        const searchButton = document.getElementById('search-button');
 
-        searchButton.addEventListener('click', () => {
-            performSearch();
+            $(document).on('click', '.search-result-item', function() {
+                const lokasiId = $(this).data('id');
+                const selectedMarker = allMarkers[lokasiId];
+
+                if (selectedMarker) {
+                    map.flyTo(selectedMarker.getLatLng(), 16);
+                    selectedMarker.openPopup();
+                }
+
+                searchResults.html('').hide();
+                searchInput.val($(this).find('h4').text());
+            });
+
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.search-container').length) {
+                    searchResults.hide();
+                }
+            });
         });
-
-        searchInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                performSearch();
-            }
-        });
-
-        function performSearch() {
-            const query = searchInput.value.toLowerCase().trim();
-            const foundMarker = markers[query];
-
-            if (foundMarker) {
-                map.flyTo(foundMarker.getLatLng(), 15);
-                foundMarker.openPopup();
-            } else {
-                alert(`Lokasi dengan nama "${searchInput.value}" tidak ditemukan. Pastikan nama lokasi sudah benar.`);
-            }
-        }
     </script>
 </body>
 </html>

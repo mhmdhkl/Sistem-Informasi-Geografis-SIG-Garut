@@ -18,3 +18,4 @@ Route::get('/statistik', [StatistikController::class, 'index']);
 
 Route::get('/berita', [BeritaController::class, 'index']);
 Route::get('/layers/{nama_layer}', [LayerController::class, 'show']);
+Route::get('/search/lokasi/{keyword}', [LokasiController::class, 'search']);
