@@ -3,105 +3,119 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Lokasi; 
+use App\Models\Lokasi;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage; 
+use Illuminate\Support\Facades\Storage;
 
 class LokasiController extends Controller
 {
+    /**
+     * Menampilkan daftar lokasi berdasarkan kategori.
+     * Ini adalah gabungan dari kode LAMA dan BARU.
+     */
     public function index(Request $request)
     {
+        // Mengambil kategori dari URL, defaultnya 'Pariwisata' (seperti kode LAMA Anda)
         $kategori = $request->get('kategori', 'Pariwisata');
 
+        // Mencari lokasi berdasarkan kategori tersebut
         $lokasis = Lokasi::where('kategori', $kategori)->latest()->paginate(10);
 
+        // Mengirimkan KEDUA variabel ($lokasis dan $kategori) ke view
         return view('admin.lokasi.index', compact('lokasis', 'kategori'));
     }
 
-
+    /**
+     * Menampilkan form untuk membuat lokasi baru.
+     * Menggunakan kode BARU agar ada dropdown.
+     */
     public function create()
     {
-        return view('admin.lokasi.create');
+        // Mengambil data kategori unik untuk dropdown di form
+        $kategori = Lokasi::select('kategori')->distinct()->get();
+        return view('admin.lokasi.create', compact('kategori'));
     }
 
+    /**
+     * Menyimpan lokasi baru ke database.
+     * Menggunakan kode BARU yang sudah mendukung ticket_url.
+     */
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'nama_lokasi' => 'required|string|max:255',
             'kategori' => 'required|string',
             'deskripsi' => 'required|string',
             'alamat' => 'required|string',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'ticket_url' => 'nullable|url',
         ]);
 
-        $fotoPath = null;
         if ($request->hasFile('foto')) {
-            $fotoPath = $request->file('foto')->store('lokasi-foto', 'public');
+            $path = $request->file('foto')->store('public/lokasi');
+            $validatedData['foto'] = basename($path);
         }
 
-        Lokasi::create([
-            'nama_lokasi' => $request->nama_lokasi,
-            'kategori' => $request->kategori,
-            'deskripsi' => $request->deskripsi,
-            'alamat' => $request->alamat,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'foto' => $fotoPath,
-        ]);
+        Lokasi::create($validatedData);
 
-        return redirect()->route('lokasi.index')->with('success', 'Data lokasi berhasil ditambahkan.');
+        // Mengarahkan kembali ke halaman index dengan kategori yang sesuai
+        return redirect()->route('lokasi.index', ['kategori' => $request->kategori])->with('success', 'Lokasi berhasil ditambahkan.');
     }
 
-
+    /**
+     * Menampilkan form untuk mengedit lokasi.
+     * Menggunakan kode BARU agar ada dropdown.
+     */
     public function edit(Lokasi $lokasi)
     {
-        return view('admin.lokasi.edit', compact('lokasi'));
+        // Mengambil data kategori unik untuk dropdown di form
+        $kategori = Lokasi::select('kategori')->distinct()->get();
+        return view('admin.lokasi.edit', compact('lokasi', 'kategori'));
     }
 
-
+    /**
+     * Memperbarui data lokasi di database.
+     * Menggunakan kode BARU yang sudah mendukung ticket_url.
+     */
     public function update(Request $request, Lokasi $lokasi)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'nama_lokasi' => 'required|string|max:255',
             'kategori' => 'required|string',
             'deskripsi' => 'required|string',
             'alamat' => 'required|string',
             'latitude' => 'required|numeric',
             'longitude' => 'required|numeric',
-            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'ticket_url' => 'nullable|url',
         ]);
 
-        $fotoPath = $lokasi->foto;
         if ($request->hasFile('foto')) {
-            if ($fotoPath) {
-                Storage::disk('public')->delete($fotoPath);
+            if ($lokasi->foto) {
+                Storage::delete('public/lokasi/' . $lokasi->foto);
             }
-            $fotoPath = $request->file('foto')->store('lokasi-foto', 'public');
+            $path = $request->file('foto')->store('public/lokasi');
+            $validatedData['foto'] = basename($path);
         }
 
-        $lokasi->update([
-            'nama_lokasi' => $request->nama_lokasi,
-            'kategori' => $request->kategori,
-            'deskripsi' => $request->deskripsi,
-            'alamat' => $request->alamat,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'foto' => $fotoPath,
-        ]);
+        $lokasi->update($validatedData);
 
-        return redirect()->route('lokasi.index')->with('success', 'Data lokasi berhasil diperbarui.');
+        // Mengarahkan kembali ke halaman index dengan kategori yang sesuai
+        return redirect()->route('lokasi.index', ['kategori' => $request->kategori])->with('success', 'Lokasi berhasil diperbarui.');
     }
 
+    /**
+     * Menghapus data lokasi dari database.
+     */
     public function destroy(Lokasi $lokasi)
     {
+        $kategori = $lokasi->kategori;
         if ($lokasi->foto) {
-            Storage::disk('public')->delete($lokasi->foto);
+            Storage::delete('public/lokasi/' . $lokasi->foto);
         }
-
         $lokasi->delete();
-
-        return redirect()->route('lokasi.index')->with('success', 'Data lokasi berhasil dihapus.');
+        return redirect()->route('lokasi.index', ['kategori' => $kategori])->with('success', 'Lokasi berhasil dihapus.');
     }
 }
