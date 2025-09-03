@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    <div class="flex justify-between items-center mb-4">
+                    <div class="flex justify-between items-center mb-6">
                         <h3 class="text-2xl font-bold">Daftar Lokasi {{ $kategori }}</h3>
                         <a href="{{ route('lokasi.create', ['kategori' => $kategori]) }}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                             Tambah Data
@@ -21,6 +21,19 @@
                             <span class="block sm:inline">{{ session('success') }}</span>
                         </div>
                     @endif
+
+                    <div class="mb-4">
+                        <form action="{{ route('lokasi.index') }}" method="GET" class="flex items-center gap-2">
+                            <input type="hidden" name="kategori" value="{{ $kategori }}">
+                            <input type="text" name="search" placeholder="Cari nama lokasi..." class="w-full md:w-1/3 rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" value="{{ $search ?? '' }}">
+                            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded">
+                                Cari
+                            </button>
+                            @if($search)
+                            <a href="{{ route('lokasi.index', ['kategori' => $kategori]) }}" class="text-sm text-gray-600 hover:underline">Reset</a>
+                            @endif
+                        </form>
+                    </div>
 
                     <div class="flex justify-start items-center mb-4 space-x-2">
                         <label for="per_page" class="text-sm font-medium text-gray-700">Tampilkan:</label>
@@ -74,7 +87,13 @@
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="5" class="py-4 px-6 text-center text-gray-500">Tidak ada data lokasi.</td>
+                                        <td colspan="5" class="py-4 px-6 text-center text-gray-500">
+                                            @if($search)
+                                                Lokasi dengan nama "{{ $search }}" tidak ditemukan.
+                                            @else
+                                                Tidak ada data lokasi.
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforelse
                             </tbody>

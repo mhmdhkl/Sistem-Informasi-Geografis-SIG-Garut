@@ -13,10 +13,16 @@ class LokasiController extends Controller
     {
         $kategori = $request->get('kategori', 'Pariwisata');
         $sort = $request->get('sort', 'asc');
-        $per_page = $request->get('per_page', 10); 
+        $per_page = $request->get('per_page', 10);
+        $search = $request->get('search');
 
-        $query = Lokasi::where('kategori', $kategori)
-                       ->orderBy('nama_lokasi', $sort);
+        $query = Lokasi::where('kategori', $kategori);
+
+        if ($search) {
+            $query->where('nama_lokasi', 'like', '%' . $search . '%');
+        }
+
+        $query->orderBy('nama_lokasi', $sort);
 
         if ($per_page == 'all') {
             $lokasis = $query->get();
@@ -24,7 +30,7 @@ class LokasiController extends Controller
             $lokasis = $query->paginate(is_numeric($per_page) ? $per_page : 10);
         }
 
-        return view('admin.lokasi.index', compact('lokasis', 'kategori', 'sort', 'per_page'));
+        return view('admin.lokasi.index', compact('lokasis', 'kategori', 'sort', 'per_page', 'search'));
     }
 
     public function create()
