@@ -61,7 +61,7 @@
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="flex items-center space-x-2">
                 <img src="{{ asset('images/logo-garut.png') }}" alt="Logo Garut" class="h-10">
-                <span class="text-sm md:text-xl font-bold text-gray-800">Pemerintahan<br>Kabupaten Garut</span>
+                <span class="text-sm md:text-xl font-bold text-gray-800">Sistem Informasi Geografis<br>Kabupaten Garut</span>
             </div>
             <nav class="hidden md:flex items-center space-x-8 text-gray-600 font-medium">
                 <a href="#home" class="hover:text-blue-600">Home</a>
@@ -150,22 +150,23 @@
                 </div>
 
                 <div class="bg-slate-700 rounded-lg transform hover:scale-105 transition-transform overflow-hidden">
-                    <img src="{{ asset('images/thumb-batas.png') }}" alt="Thumbnail Batas Kota" class="w-full h-40 object-cover">
-                    <div class="p-6">
-                        <h3 class="font-bold text-xl mb-2">Batas Kota</h3>
-                        <p class="text-slate-300 mb-4 text-sm">Visualisasi batas administrasi wilayah kota Garut.</p>
-                        <a href="#" class="font-semibold text-gray-400 cursor-not-allowed">Segera Hadir</a>
-                    </div>
+                <img src="{{ asset('images/thumb-batas.png') }}" alt="Thumbnail Batas Kota" class="w-full h-40 object-cover">
+                <div class="p-6">
+                    <h3 class="font-bold text-xl mb-2">Batas Kota</h3>
+                    <p class="text-slate-300 mb-4 text-sm">Visualisasi batas administrasi wilayah kota Garut.</p>
+                    <a href="{{ route('peta.layer', 'Batas_Garut') }}" class="font-semibold text-blue-400 hover:underline">Lihat Peta →</a>
                 </div>
+            </div>
 
-                <div class="bg-slate-700 rounded-lg transform hover:scale-105 transition-transform overflow-hidden">
-                    <img src="{{ asset('images/thumb-geologi.png') }}" alt="Thumbnail Geologi Garut" class="w-full h-40 object-cover">
-                    <div class="p-6">
-                        <h3 class="font-bold text-xl mb-2">Geologi Garut</h3>
-                        <p class="text-slate-300 mb-4 text-sm">Informasi mengenai struktur dan kondisi geologi.</p>
-                        <a href="#" class="font-semibold text-gray-400 cursor-not-allowed">Segera Hadir</a>
-                    </div>
+            <div class="bg-slate-700 rounded-lg transform hover:scale-105 transition-transform overflow-hidden">
+                <img src="{{ asset('images/thumb-geologi.png') }}" alt="Thumbnail Agri Ladang Kabupaten Garut" class="w-full h-40 object-cover">
+                <div class="p-6">
+                    <h3 class="font-bold text-xl mb-2">Agri Ladang Kabupaten Garut</h3>
+                    <p class="text-slate-300 mb-4 text-sm">Menampilkan peta lahan pertanian dan ladang di Kabupaten Garut.</p>
+                    <a href="{{ route('peta.layer', 'Agri_Ladang_Kabupaten_Garut') }}" class="font-semibold text-blue-400 hover:underline">Lihat Peta →</a>
                 </div>
+            </div>
+
 
             </div>
             
@@ -205,6 +206,15 @@
                     <p class="text-center col-span-3 text-gray-500">Belum ada berita untuk ditampilkan.</p>
                     @endforelse
                 </div>
+                </div>
+                    <div class="text-center mt-12">
+                        <a href="https://www.garutkab.go.id/berita" target="_blank" class="inline-flex items-center space-x-3 bg-blue-600 text-white px-6 py-3 rounded-md hover:bg-blue-700 transition-colors">
+                            <span>Lihat Berita Selengkapnya</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </a>
+                    </div>
             </div>
         </section>
         
